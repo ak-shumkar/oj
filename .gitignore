@@ -1,0 +1,11 @@
+venv/
+.idea/
+*/__pycache__/*
+user/migrations/__pycache__/
+submission/migrations/__pycache__/
+problem/migrations/__pycache__/
+contest/migrations/__pycache__/
+__pycache__/
+test.py
+add.py
+output.txt
