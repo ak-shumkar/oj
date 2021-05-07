@@ -1,17 +1,14 @@
 from django.db import models
 
-from contest.models import Contest
-from problem.models import Problem
-from user.models import User
-
 
 class Submission(models.Model):
-    user = models.ForeignKey(User, related_name='submissions', on_delete=models.CASCADE)
-    problem = models.ForeignKey(Problem, on_delete=models.CASCADE)
-    contest = models.ForeignKey(Contest, related_name='submissions', on_delete=models.SET_NULL, null=True)
-    source_code = models.TextField(null=True, blank=True)
+    user = models.ForeignKey(to='user.User', related_name='submissions', on_delete=models.CASCADE)
+    problem = models.ForeignKey(to='problem.Problem', related_name='submissions', on_delete=models.CASCADE)
+    contest = models.ForeignKey(to='contest.Contest', related_name='submissions', on_delete=models.SET_NULL, null=True)
+    source_code = models.TextField()
     submit_time = models.DateTimeField()
-    language = models.CharField(max_length=100)
+    language = models.CharField(max_length=10)
+    language_name = models.CharField(max_length=50, default='')
 
     verdict = models.CharField(max_length=100)
     time = models.IntegerField(default=1000)  # Execution time in milliseconds

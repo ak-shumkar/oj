@@ -1,5 +1,5 @@
 from django.test import TestCase
 from .models import Submission
+from django.db.models import Count
 
-s = Submission.objects.latest('id')
-print(s.problem_id)
+

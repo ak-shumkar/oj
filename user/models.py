@@ -5,10 +5,15 @@ from django.contrib.auth.models import AbstractUser
 class User(AbstractUser):
     # Fields
     member = models.BooleanField(default=False)  # Whether the user is member of authors
+    verification_token = models.CharField(max_length=100, default='')
+    rating = models.IntegerField(default=0)
 
     class Meta:
         db_table = 'user'
+
     # Methods
+    def fullname(self):
+        return self.first_name + ' ' + self.last_name
 
 
 class Profile(models.Model):
@@ -22,7 +27,7 @@ class Profile(models.Model):
                                       ('Master', 'Master'),
                                       ('Grand Master', 'Grand Master'),
                                       ('The Emperor', 'The Emperor')])
-    image = models.ImageField(upload_to='photos/', null=True, blank=True)
+    image = models.ImageField(upload_to='photos/', default='photos/default.png')
     rating = models.IntegerField(default=0)
     company = models.CharField(max_length=250, null=True, blank=True)
     institute = models.CharField(max_length=250, null=True, blank=True)

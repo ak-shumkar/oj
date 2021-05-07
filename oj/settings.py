@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.1/ref/settings/
 """
 import os
+import socket
 from datetime import timedelta
 from pathlib import Path
 import psycopg2
@@ -39,9 +40,11 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     # External apps
+    'drf_yasg',
     'corsheaders',
     'rest_framework',
     'rest_framework_simplejwt',
+    'django_celery_beat',
 
     # My apps
     'user',
@@ -137,7 +140,6 @@ STATIC_URL = '/static/'
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': (
         'rest_framework.permissions.AllowAny',
-        # 'rest_framework.permissions.IsAuthenticated',
     ),
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework_simplejwt.authentication.JWTAuthentication',
@@ -146,7 +148,7 @@ REST_FRAMEWORK = {
         'rest_framework.parsers.JSONParser',
         'rest_framework.parsers.FormParser',
     ),
-    'DATETIME_FORMAT': "%Y-%m-%d %H:%M:%S.%f"
+    # 'DATETIME_FORMAT': "%Y-%m-%d %H:%M:%S.%f"
 }
 
 SIMPLE_JWT = {
@@ -173,3 +175,35 @@ AUTH_USER_MODEL = "user.User"
 
 CELERY_BROKER_URL = "redis://127.0.0.1:6379/0"
 CELERY_RESULT_BACKEND = "redis://127.0.0.1:6379/0"
+
+# EMAIL_BACKEND = 'django.core.mail.backends.filebased.EmailBackend'
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_FILE_PATH = '/media/messages'
+#
+EMAIL_USE_TLS = True
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = 'mm.kalandar@gmail.com'
+EMAIL_HOST_PASSWORD = 'yreidvmojkssyvtm'
+EMAIL_PORT = 587
+
+FRONTEND_URL = 'http://127.0.0.1:3000/'
+
+
+DEFAULT_LOGGING = {
+    'version': 1,
+    'handlers': {
+        'gelf': {
+            'class': 'graypy.GELFHandler',
+            'host': 'localhost',
+            'port': 12201,
+            'level': 'INFO',
+        },
+    },
+    'loggers': {
+        'oj': {
+            'handlers': ['gelf'],
+            'level': 'DEBUG',
+        },
+    },
+}
+
