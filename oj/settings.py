@@ -182,8 +182,8 @@ EMAIL_FILE_PATH = '/media/messages'
 #
 EMAIL_USE_TLS = True
 EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_HOST_USER = 'mm.kalandar@gmail.com'
-EMAIL_HOST_PASSWORD = 'yreidvmojkssyvtm'
+EMAIL_HOST_USER = os.getenv('SMTP_USER')
+EMAIL_HOST_PASSWORD = os.getenv('SMTP_PASSWORD')
 EMAIL_PORT = 587
 
 FRONTEND_URL = 'http://127.0.0.1:3000/'
